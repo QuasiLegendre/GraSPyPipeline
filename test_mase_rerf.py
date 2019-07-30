@@ -23,6 +23,7 @@ if __name__ == '__main__':
 	MASEP = MASEPipeline([('pca', PCA(n_components=4)), ('rerf', rerfClassifier(n_estimators=10, max_depth=2))])
 	MASEP.set_params(MASE__n_components=6, MASE__algorithm='full')
 	MASEP.fit(undirected_sbms, labels_sbm)
+	print(MASEP.predict(undirected_sbms))
 	cvs, _ = MASEP.cross_val_score(undirected_sbms, labels_sbm)
 	print(cvs)
 	
