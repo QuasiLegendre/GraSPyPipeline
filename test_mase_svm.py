@@ -28,7 +28,7 @@ if __name__ == '__main__':
 		undirected_sbms.append(sbm(2 * [n_verts], P2))
 	G = np.array(undirected_sbms)
 	print(G.shape)
-	def plotSVC(clf, Xhat, y=None):
+	def plotSVC(clf, Xhat):
 		h = 0.001
 		x_min, x_max = Xhat[:, 0].min() - 0.01, Xhat[:, 0].max() + 0.01
 		y_min, y_max = Xhat[:, 1].min() - 0.01, Xhat[:, 1].max() + 0.01

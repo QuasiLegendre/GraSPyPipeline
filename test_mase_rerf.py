@@ -20,7 +20,7 @@ if __name__ == '__main__':
 		undirected_sbms.append(sbm(2 * [n_verts], P2))
 	G = np.array(undirected_sbms)
 	print(G.shape)
-	def plotRerF(X, y):
+	def plotRerF(clf, X, y):
 		import matplotlib
 		import matplotlib.pyplot as plt
 		#from mpl_toolkits.mplot3d import Axes3D
