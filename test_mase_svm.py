@@ -28,7 +28,7 @@ if __name__ == '__main__':
 		undirected_sbms.append(sbm(2 * [n_verts], P2))
 	G = np.array(undirected_sbms)
 	print(G.shape)
-	def plotSVC(Xhat, clf):	
+	def plotSVC(clf, Xhat, y=None):
 		h = 0.001
 		x_min, x_max = Xhat[:, 0].min() - 0.01, Xhat[:, 0].max() + 0.01
 		y_min, y_max = Xhat[:, 1].min() - 0.01, Xhat[:, 1].max() + 0.01
@@ -64,4 +64,5 @@ if __name__ == '__main__':
 	MASEP.set_params(MASE__n_components=6, MASE__algorithm='full')
 	MASEP.fit(undirected_sbms, labels_sbm)
 	print(MASEP.predict(undirected_sbms))
-	MASEP.plot(MASEP[:-1].fit_transform(undirected_sbms), MASEP['svc'])
+	#MASEP.plot(MASEP[:-1].transform(undirected_sbms), MASEP[-1])
+	MASEP.plot(undirected_sbms)

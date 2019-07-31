@@ -12,9 +12,11 @@ class SupervisedLearningPipeline(Pipeline, metaclass=ABCMeta):
 				):
 		super(SupervisedLearningPipeline, self).__init__(steps, memory, verbose=verbose)
 		if plot_method is not None:
-			self.plot = plot_method
+			self.plot_method = plot_method
 		if kfold is not None:
 			self.kfold = kfold
+	def plot(self, X, y=None):
+		return self.plot_method(self[-1], self[:-1].transform(X), y)
 	@abstractmethod
 	def cross_val_score(self, dataset, labels):
 		pass

@@ -22,11 +22,9 @@ class MASEPipeline(SupervisedLearningPipeline):
 		if not isinstance(self.steps[0][1], MASEClassifier):
 			self.steps = [('MASE', MASEClassifier()), ('Flat', FunctionTransformer(self.flat_method, validate=False))] + self.steps
 		if plot_method is not None:
-			self.plot = plot_method
+			self.plot_method = plot_method
 		if kfold is not None:
 			self.kfold = kfold
-	#def get_scores(self):
-	#	return self['MASE'].get_scores()
 	def cross_val_score(self, dataset, labels):
 		test_results = []
 		dataset, labels = np.array(dataset), np.array(labels)

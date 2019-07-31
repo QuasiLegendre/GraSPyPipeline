@@ -20,7 +20,28 @@ if __name__ == '__main__':
 		undirected_sbms.append(sbm(2 * [n_verts], P2))
 	G = np.array(undirected_sbms)
 	print(G.shape)
-	MASEP = MASEPipeline([('pca', PCA(n_components=4)), ('rerf', rerfClassifier(n_estimators=10, max_depth=2))])
+	def plotRerF(X, y):
+		import matplotlib
+		import matplotlib.pyplot as plt
+		#from mpl_toolkits.mplot3d import Axes3D
+		#from sklearn.model_selection import GridSearchCV
+		x_min, x_max = X[:, 0].min() - .5, X[:, 0].max() + .5
+		y_min, y_max = X[:, 1].min() - .5, X[:, 1].max() + .5
+
+		matplotlib.rc('figure', figsize=[12, 8], dpi=300)
+		plt.figure(figsize=(9, 4))
+		plt.clf()
+
+		# Plot the training points
+		plt.scatter(X[:, 0], X[:, 1], c=y, edgecolor='k')
+		plt.xlabel('Dimension 1')
+		plt.ylabel('Dimension 2')
+
+		plt.xlim(x_min, x_max)
+		plt.ylim(y_min, y_max)
+
+		plt.show()
+	MASEP = MASEPipeline([('pca', PCA(n_components=4)), ('rerf', rerfClassifier(n_estimators=10, max_depth=2))], plot_method=plotREF)
 	MASEP.set_params(MASE__n_components=6, MASE__algorithm='full')
 	MASEP.fit(undirected_sbms, labels_sbm)
 	print(MASEP.predict(undirected_sbms))
