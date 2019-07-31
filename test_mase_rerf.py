@@ -21,30 +21,36 @@ if __name__ == '__main__':
 	G = np.array(undirected_sbms)
 	print(G.shape)
 	def plotRerF(clf, X, y):
+		h = 0.001
+		x_min, x_max = X[:, 0].min() - 0.01, X[:, 0].max() + 0.01
+		y_min, y_max = X[:, 1].min() - 0.01, X[:, 1].max() + 0.01
+		xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+							 np.arange(y_min, y_max, h))
 		import matplotlib
+		matplotlib.use('QT5Agg')
 		import matplotlib.pyplot as plt
-		#from mpl_toolkits.mplot3d import Axes3D
-		#from sklearn.model_selection import GridSearchCV
-		x_min, x_max = X[:, 0].min() - .5, X[:, 0].max() + .5
-		y_min, y_max = X[:, 1].min() - .5, X[:, 1].max() + .5
-
-		matplotlib.rc('figure', figsize=[12, 8], dpi=300)
-		plt.figure(figsize=(9, 4))
-		plt.clf()
-
-		# Plot the training points
-		plt.scatter(X[:, 0], X[:, 1], c=y, edgecolor='k')
+		# Plot the decision boundary. For that, we will assign a color to each
+		# point in the mesh [x_min, x_max]x[y_min, y_max].
+		plt.subplots(figsize=(10, 10))
+		Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+		# Put the result into a color plot
+		Z = np.array(Z)
+		Z = Z.reshape(xx.shape)
+		plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.8)
+		# Plot also the training points
+		plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.coolwarm, edgecolor='k')
 		plt.xlabel('Dimension 1')
 		plt.ylabel('Dimension 2')
-
-		plt.xlim(x_min, x_max)
-		plt.ylim(y_min, y_max)
-
+		plt.xlim(xx.min(), xx.max())
+		plt.ylim(yy.min(), yy.max())
+		plt.xticks(())
+		plt.yticks(())
 		plt.show()
-	MASEP = MASEPipeline([('pca', PCA(n_components=4)), ('rerf', rerfClassifier(n_estimators=10, max_depth=2))], plot_method=plotREF)
+	MASEP = MASEPipeline([('pca', PCA(n_components=4)), ('rerf', rerfClassifier(n_estimators=10, max_depth=2))], plot_method=plotRerF)
 	MASEP.set_params(MASE__n_components=6, MASE__algorithm='full')
 	MASEP.fit(undirected_sbms, labels_sbm)
-	print(MASEP.predict(undirected_sbms))
+	print(type(MASEP.predict(undirected_sbms)))
 	cvs, _ = MASEP.cross_val_score(undirected_sbms, labels_sbm)
 	print(cvs)
+	MASEP.plot(undirected_sbms, labels_sbm)
 	

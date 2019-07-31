@@ -28,10 +28,10 @@ if __name__ == '__main__':
 		undirected_sbms.append(sbm(2 * [n_verts], P2))
 	G = np.array(undirected_sbms)
 	print(G.shape)
-	def plotSVC(clf, Xhat):
+	def plotSVC(clf, X, y):
 		h = 0.001
-		x_min, x_max = Xhat[:, 0].min() - 0.01, Xhat[:, 0].max() + 0.01
-		y_min, y_max = Xhat[:, 1].min() - 0.01, Xhat[:, 1].max() + 0.01
+		x_min, x_max = X[:, 0].min() - 0.01, X[:, 0].max() + 0.01
+		y_min, y_max = X[:, 1].min() - 0.01, X[:, 1].max() + 0.01
 		xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
 							 np.arange(y_min, y_max, h))
 		import matplotlib
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 		Z = Z.reshape(xx.shape)
 		plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.8)
 		# Plot also the training points
-		plt.scatter(Xhat[:, 0], Xhat[:, 1], c=labels_sbm, cmap=plt.cm.coolwarm)
+		plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.coolwarm)
 		plt.xlabel('Dimension 1')
 		plt.ylabel('Dimension 2')
 		plt.xlim(xx.min(), xx.max())
@@ -65,4 +65,4 @@ if __name__ == '__main__':
 	MASEP.fit(undirected_sbms, labels_sbm)
 	print(MASEP.predict(undirected_sbms))
 	#MASEP.plot(MASEP[:-1].transform(undirected_sbms), MASEP[-1])
-	MASEP.plot(undirected_sbms)
+	MASEP.plot(undirected_sbms, labels_sbm)
